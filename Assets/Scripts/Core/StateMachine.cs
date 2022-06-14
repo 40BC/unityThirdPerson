@@ -1,21 +1,17 @@
 using UnityEngine;
 
-namespace RPG.Core
+public abstract class StateMachine : MonoBehaviour
 {
-    public abstract class StateMachine : MonoBehaviour
+    private State currentState;
+
+    private void Update() 
     {
-        private State currentState;
-
-        private void Update() 
-        {
-            currentState?.Tick(Time.deltaTime);
-        }
-
-        public void SwitchState(State newState) {
-            currentState?.Exit();
-            currentState = newState;
-            currentState?.Enter();
-        }
+        currentState?.Tick(Time.deltaTime);
     }
 
+    public void SwitchState(State newState) {
+        currentState?.Exit();
+        currentState = newState;
+        currentState?.Enter();
+    }
 }
