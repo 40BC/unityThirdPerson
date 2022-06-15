@@ -15,7 +15,17 @@ public class PlayerTestState : PlayerBaseState
         movement.x = stateMachine.InputReader.MovementValue.x;
         movement.y = 0;
         movement.z = stateMachine.InputReader.MovementValue.y;
-        stateMachine.transform.Translate(movement * deltaTime);
+        
+        stateMachine.CharacterController.Move(movement * deltaTime * stateMachine.FreeLookMovementSpeed);
+        
+        if (stateMachine.InputReader.MovementValue == Vector2.zero) 
+        {
+            stateMachine.Animator.SetFloat("FreeLookSpeed", 0, 0.1f, deltaTime);
+            return;
+        }
+
+        stateMachine.Animator.SetFloat("FreeLookSpeed", 1, 0.1f, deltaTime);
+        stateMachine.transform.rotation = Quaternion.LookRotation(movement);
     }
 
     public override void Exit()
